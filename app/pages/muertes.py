@@ -13,12 +13,11 @@ def get_df(num):
 pysqldf = lambda q: sqldf(q,globals())
 df = get_df(0)
 colorq=px.colors.qualitative.Prism
-p6 = get_df(66)
-p7 = get_df(77)
-p8 = get_df(88)
+p6 = get_df(6)
+p7 = get_df(7)
+p8 = get_df(8)
 date_slide=st.sidebar.date_input('',value=min(df.date),min_value=min(df.date),max_value=max(df.date))
 
-st.markdown('# Work in progress')
 deaths = st.container()
 
 dfMC=df.copy()
@@ -31,48 +30,77 @@ query10='''
         ''' 
 dash1=pysqldf(query10)
 
-
 with deaths:
     dash2fig=px.choropleth(dash1,locations=dash1['Estado'],locationmode='USA-states',
                     scope='usa',color=dash1['cant_muertes'],color_continuous_scale=px.colors.sequential.deep,
                     labels={'cant_muertes':'Muertes por COVID-19'})
-    dash2fig.update_layout(title_text='Cantidad de muertes por COVID-19',geo_scope='usa')
+    dash2fig.update_layout(title_text="<span style='font-size:22px'><b>Number of deaths by COVID-19<b></span>",
+                        geo_scope='usa',
+                        font=dict(size=14),
+                        title={
+                            'y':0.9,
+                            'x':0.5,
+                            'xanchor': 'center',
+                            'yanchor': 'top'})
+    dash2fig.update_xaxes(ticks='outside',ticklen=8,color='white')
+    dash2fig.update_yaxes(ticks='outside',ticklen=8,color='white')
+
     st.plotly_chart(dash2fig,use_container_width=True)
 
     fig=px.bar(p6,y='Estado',x='Cantidad de muertes',color='Cantidad de muertes',
             orientation='h')
-    fig.update_layout(title_text='Cantidad de muertes por COVID-19 durante 2021')
-    fig.update_xaxes(title_text='<b>Cantidad</b>')
-    fig.update_yaxes(title_text='<b>Estado</b>')
-    st.plotly_chart(fig)
+    fig.update_layout(title_text="<span style='font-size:22px'><b>Number of deaths by COVID-19 during 2021<b></span>",
+                        yaxis_title="State",
+                        xaxis_title="Number of deaths",
+                        font=dict(size=14),
+                        title={
+                            'y':0.9,
+                            'x':0.5,
+                            'xanchor': 'center',
+                            'yanchor': 'top'})
+    fig.update_xaxes(title_text='<b>Cantidad</b>',ticks='outside',ticklen=8,color='white')
+    fig.update_yaxes(title_text='<b>Estado</b>',ticks='outside',ticklen=8,color='white')
+    st.plotly_chart(fig,use_container_width=True)
 
     
     fig1 = go.Figure()
-    fig1.add_trace(go.Scatter(x=p7['Mes'],y=p7['cant_muertes'],name='Muertes por COVID-19',line=dict(color='black',width=2)))
-    fig1.add_trace(go.Bar(x=p7['Mes'],y=p7['no_falta_personal'],name='No falta personal médico'))
-    fig1.add_trace(go.Bar(x=p7['Mes'],y=p7['si_falta_personal'],name='Falta personal médico'))
+    fig1.add_trace(go.Scatter(x=p7['Mes'],y=p7['cant_muertes'],name='COVID-19 deaths',line=dict(color='black',width=2)))
+    fig1.add_trace(go.Bar(x=p7['Mes'],y=p7['no_falta_personal'],name='No shortage medical staff'))
+    fig1.add_trace(go.Bar(x=p7['Mes'],y=p7['si_falta_personal'],name='Shortage medical staff'))
 
-    fig1.update_layout(title_text='Relación entre la escasez de personal médico con las muertes por COVID-19 durante 2021')
-    fig1.update_xaxes(title_text="Mes 2021")
-    st.plotly_chart(fig1)
+    fig1.update_layout(title_text="<span style='font-size:22px'><b>Relationship between the shortage of medical personnel and deaths from COVID-19 during 2021<b></span>",
+                        font=dict(size=14),
+                        title={
+                            'y':0.9,
+                            'x':0.5,
+                            'xanchor': 'center',
+                            'yanchor': 'top'})
+    fig1.update_xaxes(title_text="Mes 2021",ticks='outside',ticklen=8,color='white')
+    fig1.update_yaxes(ticks='outside',ticklen=8,color='white')
+    st.plotly_chart(fig1,use_container_width=True)
 
-    st.markdown('''Se pueden observar dos picos en los meses de Enero y Septiembre, aunque este último 
-no sea el mayor con falta de personal médico, se debe tener en cuenta que es uno de los meses con menor 
-cantidad de reportes.''')
+    st.markdown('''Two peaks can be observed in the months of January and September, although the latter is not the highest due to 
+                    the lack of medical personnel, it should be taken into account that it is one of the months with the fewest reports.''')
 
     fig2 = make_subplots(specs=[[{"secondary_y": True}]])
-    fig2.add_trace(go.Bar(x=p8['fecha'],y=p8['cant_UCI_camas'],name='Cantidad camas UCI'),secondary_y=False)
-    fig2.add_trace(go.Scatter(x=p8['fecha'],y=p8['cant_muertes'],name='Muertes por COVID-19'),secondary_y=True)
-    fig2.add_trace(go.Bar(x=p8['fecha'],y=p8['cant_camas'],name='Cantidad camas comunes'),secondary_y=False)
-    fig2.add_trace(go.Scatter(x=p8['fecha'],y=p8['falta_personal'],name='Falta de personal médico'),secondary_y=True)
+    fig2.add_trace(go.Bar(x=p8['fecha'],y=p8['cant_UCI_camas'],name='Number of UCI beds'),secondary_y=False)
+    fig2.add_trace(go.Scatter(x=p8['fecha'],y=p8['cant_muertes'],name='COVID-19 deaths'),secondary_y=True)
+    fig2.add_trace(go.Bar(x=p8['fecha'],y=p8['cant_camas'],name='Number of common beds'),secondary_y=False)
+    fig2.add_trace(go.Scatter(x=p8['fecha'],y=p8['falta_personal'],name='Shortage medical staff'),secondary_y=True)
 
-    fig2.update_layout(title_text='Peor mes para los Estados Unidos durante la pandemia')
-    fig2.update_xaxes(title_text="Fecha")
-    fig2.update_yaxes(title_text="<b>Barras</b>", secondary_y=False)
-    fig2.update_yaxes(title_text="<b>Lineas</b>", secondary_y=True)
-    st.plotly_chart(fig2)
+    fig2.update_layout(title_text="<span style='font-size:22px'><b>Worst month for USA during the pandemic<b></span>",
+                        font=dict(size=14),
+                        title={
+                            'y':0.9,
+                            'x':0.5,
+                            'xanchor': 'center',
+                            'yanchor': 'top'})
 
-    st.markdown('''En conclusión, Enero de 2021 fue el peor mes de pandemia para Estados Unidos ya que como 
-    se puede ver en el gráfico fue el mes con un pico de muertes y alta ocupación de camas tanto comunes 
-como Unidades de Terapia Intensiva. Si bien el pico de falta de personal médico fue durante el mes de Diciembre
-de 2020, tal vez esto influyó en los resultados.''')
+    fig2.update_xaxes(title_text="Date",ticks='outside',ticklen=8,color='white')
+    fig2.update_yaxes(title_text="<b>Bars</b>", secondary_y=False,ticks='outside',ticklen=8,color='white')
+    fig2.update_yaxes(title_text="<b>Lines</b>", secondary_y=True,ticks='outside',ticklen=8,color='white')
+    st.plotly_chart(fig2,use_container_width=True)
+
+    st.markdown('''In conclusion, January 2021 was the worst month of the pandemic for the United States since, as can be seen in the graph, 
+    it was the month with a peak in deaths and high occupancy of both common beds and Intensive Care Units. Although the peak in the lack of 
+    medical personnel was during the month of December 2020, this may have influenced the results.''')
