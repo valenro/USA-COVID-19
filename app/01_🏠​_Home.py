@@ -3,6 +3,8 @@ st.set_page_config(layout='centered')
 
 st.markdown(
     '''
+    # COVID-19 cases in the USA
+    
     In this project, I will analyze data from COVID-19 cases in the United States with a dataset provided by the CDC 
     from the United States which has records from the beginning of the pandemic in January 2020 until August 2022. 
     I will use data visualization to show how many people were affected by COVID-19, how many people had been 
