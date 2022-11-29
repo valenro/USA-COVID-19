@@ -5,7 +5,7 @@ from pandasql import sqldf
 def read(dataframe):
         return pd.read_csv(dataframe)
 
-df=read('COVID-19_Reported_Patient_Impact_and_Hospital_Capacity_by_State_Timeseries.csv')
+df=read('../COVID-19_Reported_Patient_Impact_and_Hospital_Capacity_by_State_Timeseries.csv')
 fecha_max=datetime.date(year=2022,month=8,day=2)
 df.sort_values(by='date',inplace=True)
 df['date']=pd.to_datetime(df['date']).dt.date
@@ -16,6 +16,8 @@ pysqldf=lambda q: sqldf(q,globals())
 año=datetime.date(year=2020,month=7,day=1)
 df1=df.loc[df['date']<año]
 
+pto1 = df1[['state','inpatient_beds_used_covid']].agg({'inpatient_beds_used_covid':'sum'}).groupby('state').sort_values(by='inpatient_beds_used_covid').head(5)
+print(pto1)
 query1='''SELECT state as Estado,SUM(inpatient_beds_used_covid) as Cantidad_camas_comunes
         FROM df1
         GROUP BY Estado
