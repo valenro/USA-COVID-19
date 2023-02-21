@@ -1,5 +1,4 @@
-pandas==1.4.3
-pip==22.2.2
-plotly==5.10.0
-streamlit==1.12.2
-pandasql==0.7.3
+pandas==1.5.3
+pip==23.0
+plotly==5.13.0
+streamlit==1.18.1
