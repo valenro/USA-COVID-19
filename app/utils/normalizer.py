@@ -3,7 +3,10 @@ import pandas as pd
 from utils.year_caller import YC
 
 class Normalizer():
-        
+        '''
+                This class contains functions with preprocessed and normalized dataframes
+                to then be used in the "exer_call" class.
+        '''
         def read(dataframe): return pd.read_csv(dataframe)
         
         def _normalize_df():

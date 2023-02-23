@@ -4,11 +4,9 @@ from utils.normalizer import Normalizer as nz
 
 class _exer_call():
         '''
-                Function which returns a dataframe for each exercise of the
-                questionarie in the document.
-                
-                * Parameters:
-                        - number: range of int from 1 to 8.
+                All the functions from this class returns a dataframe corresponding to
+                each question used to develop this project. You can call these functions typing
+                "q" + a number desired from 1 to 8 (number of questions).
                 
         '''
         df = nz._normalize_df()

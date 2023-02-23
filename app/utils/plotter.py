@@ -1,9 +1,14 @@
 import plotly.express as px
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 from utils.exer_call import _exer_call as ec
 from utils.normalizer import Normalizer as nz
-from plotly.subplots import make_subplots
 
+'''
+    These classes were created to make the plots for each page from 
+    the streamlit app. Calling any function it returns a plot by calling
+    the dataframes from the "exer_call" class.
+'''
 class _occupancy():   
     def bed_map(): 
         map_df = nz._occ_map()

@@ -1,7 +1,10 @@
 import datetime
 
 class YC():
-        
+        '''
+                Auxiliary class to return different datetimes which were
+                used to filter the dataframes by date.
+        '''
         def exer_1(): return datetime.date( year = 2020, month = 7, day = 1 )
         
         def exer_2(): 
