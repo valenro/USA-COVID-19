@@ -187,9 +187,9 @@ class _deaths():
                                 'xanchor': 'center',
                                 'yanchor': 'top'})
 
-        month_plot.update_xaxes(title_text="<b>Date<b/>",ticks='outside',ticklen=8,color='white')
-        month_plot.update_yaxes(title_text="<b>Bars quantity<b/>", secondary_y=False,ticks='outside',ticklen=8,color='white')
-        month_plot.update_yaxes(title_text="Lines quantity", secondary_y=True,ticks='outside',ticklen=8,color='white')
+        month_plot.update_xaxes(title_text= "<b>Date", ticks= 'outside', ticklen= 8, color='white')
+        month_plot.update_yaxes(title_text= "<b>Bars quantity", secondary_y= False, ticks= 'outside', ticklen= 8, color= 'white')
+        month_plot.update_yaxes(title_text= "Lines quantity", secondary_y= True, ticks= 'outside', ticklen= 8, color= 'white')
         
         return month_plot
 

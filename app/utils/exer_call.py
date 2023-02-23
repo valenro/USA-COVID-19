@@ -72,7 +72,9 @@ class _exer_call():
         def q8():
                 df8 = _exer_call.df
                 
-                df8['date'] = df8['date'].apply(lambda x: x.strftime('%Y-%m')) 
+                df8['date'] = pd.to_datetime(df8.date)
+        
+                df8['date'] = df8['date'].dt.strftime('%Y-%m')
                
                 df8 = df8[[
                        'date', 
